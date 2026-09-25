@@ -2,6 +2,7 @@ export interface BankAccountConfig {
 	bankName: string;
 	holderName: string;
 	accountNumber: string;
+	documentNumber: string;
 	alias?: string;
 }
 
@@ -80,9 +81,10 @@ export const siteConfig = {
 	thankYouMessage:
 		'Lo más importante para nosotros es celebrar este momento con las personas que queremos.',
 	bankAccount: {
-		bankName: '',
-		holderName: '',
-		accountNumber: '',
+		bankName: 'Banco Continental',
+		holderName: 'JAVIER HEISECKE ECHEVERRIA',
+		accountNumber: '010034916007',
+		documentNumber: '0000000',
 	},
 	whatsApp: {
 		phoneNumber: '',

@@ -11,6 +11,7 @@ const bankFields = [
 	{ id: 'bank-name', label: 'Banco', value: bankAccount.bankName },
 	{ id: 'bank-holder', label: 'Titular', value: bankAccount.holderName },
 	{ id: 'bank-account', label: 'Número de cuenta', value: bankAccount.accountNumber },
+	{ id: 'bank-document', label: 'Número de documento', value: bankAccount.documentNumber },
 	...(bankAccount.alias ? [{ id: 'bank-alias', label: 'Alias', value: bankAccount.alias }] : []),
 ];
 ---
