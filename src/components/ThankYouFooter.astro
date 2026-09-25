@@ -18,13 +18,35 @@ const { title, message, coupleNames } = Astro.props;
 
 <style>
 	.thank-you {
+		position: relative;
+		isolation: isolate;
+		overflow: hidden;
 		padding: var(--space-section) var(--space-page);
 		background: var(--color-accent);
 		color: var(--color-on-accent);
 		text-align: center;
 	}
 
+	.thank-you::before,
+	.thank-you::after {
+		position: absolute;
+		inset: 0;
+		content: '';
+	}
+
+	.thank-you::before {
+		z-index: -2;
+		background: url('/images/couple/embrace.webp') center 57% / cover no-repeat;
+		opacity: 0.52;
+	}
+
+	.thank-you::after {
+		z-index: -1;
+		background: linear-gradient(180deg, rgb(77 21 34 / 0.76), rgb(51 20 27 / 0.9));
+	}
+
 	.thank-you__content {
+		position: relative;
 		max-width: var(--content-width-narrow);
 		margin-inline: auto;
 	}

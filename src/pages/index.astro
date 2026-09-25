@@ -24,6 +24,7 @@ const gifts = await giftRepository.list();
 		<title>{siteConfig.pageTitle}</title>
 	</head>
 	<body>
+		<p class="prototype-notice" role="status">{siteConfig.prototypeNotice}</p>
 		<main>
 			<Hero
 				coupleNames={siteConfig.coupleNames}
@@ -57,3 +58,17 @@ const gifts = await giftRepository.list();
 		/>
 	</body>
 </html>
+
+<style>
+	.prototype-notice {
+		position: relative;
+		z-index: 10;
+		margin: 0;
+		padding: var(--space-2) var(--space-page);
+		background: var(--color-text);
+		color: var(--color-on-accent);
+		font-size: var(--font-size-status);
+		font-weight: var(--font-weight-bold);
+		text-align: center;
+	}
+</style>

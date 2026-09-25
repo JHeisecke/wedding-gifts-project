@@ -22,6 +22,7 @@ export interface SiteConfig {
 	pageTitle: string;
 	pageDescription: string;
 	robots: 'noindex, nofollow';
+	prototypeNotice: string;
 	coupleNames: string;
 	weddingDate: string;
 	weddingDateIso: string;
@@ -46,6 +47,7 @@ export const siteConfig = {
 	pageTitle: 'Javier & Iara — Nos casamos',
 	pageDescription: 'Regalos para acompañar a Javier y Iara en su nuevo hogar y luna de miel.',
 	robots: 'noindex, nofollow',
+	prototypeNotice: 'Versión prototipo — por favor, no realices transferencias todavía.',
 	coupleNames: 'Javier & Iara',
 	weddingDate: '20 de febrero de 2027',
 	weddingDateIso: '2027-02-20',
@@ -79,7 +81,7 @@ export const siteConfig = {
 		'Cada aporte, grande o pequeño, nos acerca un poquito más a estos sueños compartidos.',
 	thankYouTitle: 'Gracias por acompañarnos',
 	thankYouMessage:
-		'Lo más importante para nosotros es celebrar este momento con las personas que queremos.',
+		'Gracias por ser parte de este comienzo. Cada mensaje, abrazo y aporte hace que esta etapa sea todavía más especial.',
 	bankAccount: {
 		bankName: 'Banco Continental',
 		holderName: 'JAVIER HEISECKE ECHEVERRIA',
@@ -87,8 +89,8 @@ export const siteConfig = {
 		documentNumber: '0000000',
 	},
 	whatsApp: {
-		phoneNumber: '',
+		phoneNumber: '+595 983459888',
 		messageTemplate:
-			'Hola, quiero enviarte el comprobante de mi aporte para “{giftName}”.',
+			'Hola, Javier e Iara. Quiero contribuir al regalo “{giftName}”. Adjunto mi comprobante. Mi nombre es: _____. Mensaje para ustedes (opcional): _____.',
 	},
 } satisfies SiteConfig;

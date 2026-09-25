@@ -36,12 +36,31 @@ const {
 <style>
 	.hero {
 		position: relative;
+		isolation: isolate;
 		display: grid;
 		min-height: min(52rem, 100svh);
 		place-items: center;
 		overflow: hidden;
 		padding: var(--space-section) var(--space-page);
 		text-align: center;
+	}
+
+	.hero::before,
+	.hero::after {
+		position: absolute;
+		inset: 0;
+		content: '';
+	}
+
+	.hero::before {
+		z-index: -2;
+		background: url('/images/couple/proposal.webp') center 52% / cover no-repeat;
+		opacity: 0.42;
+	}
+
+	.hero::after {
+		z-index: -1;
+		background: linear-gradient(180deg, rgb(248 243 234 / 0.48), rgb(248 243 234 / 0.82));
 	}
 
 	.hero__content {
@@ -118,7 +137,7 @@ const {
 		}
 
 		.hero__ornament {
-			op: -14rem;
+			top: -14rem;
 			bottom: auto;
 		}
 
