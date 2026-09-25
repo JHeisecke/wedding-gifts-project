@@ -19,9 +19,16 @@ const { eyebrow, title, intro, gifts } = Astro.props;
 		<p>{intro}</p>
 	</div>
 
-	<div class="gift-grid" data-gift-count={gifts.length}>
-		{gifts.map((gift) => <GiftCard gift={gift} />)}
-	</div>
+	{gifts.length > 0 ? (
+		<div class="gift-grid" data-gift-count={gifts.length}>
+			{gifts.map((gift) => <GiftCard gift={gift} />)}
+		</div>
+	) : (
+		<div class="gifts__empty" role="status">
+			<h3>Estamos preparando nuestra lista</h3>
+			<p>Muy pronto vas a encontrar acá nuestras ideas de regalos.</p>
+		</div>
+	)}
 </section>
 
 <style>
@@ -33,6 +40,29 @@ const { eyebrow, title, intro, gifts } = Astro.props;
 	.gift-grid {
 		width: min(100%, var(--content-width));
 		margin-inline: auto;
+	}
+
+	.gifts__empty {
+		width: min(100%, var(--content-width-narrow));
+		margin: var(--space-7) auto 0;
+		padding: var(--space-7) var(--space-6);
+		border: 1px dashed var(--color-border);
+		border-radius: var(--radius-large);
+		background: var(--color-surface-muted);
+		text-align: center;
+	}
+
+	.gifts__empty h3 {
+		margin: 0;
+		font-family: var(--font-heading);
+		font-size: var(--font-size-lead);
+		font-weight: var(--font-weight-medium);
+	}
+
+	.gifts__empty p {
+		margin: var(--space-3) 0 0;
+		color: var(--color-text-muted);
+		line-height: var(--line-height-body);
 	}
 
 	.gifts__heading {

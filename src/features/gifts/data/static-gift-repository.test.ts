@@ -24,4 +24,17 @@ describe('StaticGiftRepository', () => {
 		expect(gifts.map(({ id }) => id)).toEqual(['first', 'second']);
 		expect(source.map(({ id }) => id)).toEqual(['second', 'first']);
 	});
+
+	it('supports an empty catalog', async () => {
+		const repository = new StaticGiftRepository([]);
+
+		expect(await repository.list()).toEqual([]);
+	});
+
+	it('does not impose a catalog size limit', async () => {
+		const source = Array.from({ length: 10 }, (_, index) => createGift(`gift-${index}`, index));
+		const repository = new StaticGiftRepository(source);
+
+		expect(await repository.list()).toHaveLength(10);
+	});
 });

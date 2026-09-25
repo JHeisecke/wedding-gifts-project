@@ -31,6 +31,7 @@ Astro genera el sitio estático en `dist/`.
 - Página que consume los regalos mediante el repositorio.
 - Grilla adaptable con montos en guaraníes, progreso y estado completado.
 - Diálogo accesible con datos bancarios, copiado y enlace preparado de WhatsApp.
+- Sitio no indexado, estado de catálogo vacío y respaldo de imágenes locales.
 - Build estático verificable.
 
 Los datos bancarios, el número de WhatsApp y el contenido definitivo siguen pendientes. Sus acciones permanecen deshabilitadas hasta cargar valores reales.

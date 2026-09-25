@@ -18,6 +18,7 @@ const categoryLabel = giftCategoryLabels[gift.category];
 	<div class="gift-card__image-wrap">
 		<img
 			class="gift-card__image"
+			data-gift-image
 			src={gift.image.src}
 			alt={gift.image.alt}
 			width="800"
@@ -66,6 +67,16 @@ const categoryLabel = giftCategoryLabels[gift.category];
 		</button>
 	</div>
 </article>
+
+<script>
+	const fallbackImage = '/images/gifts/placeholder.svg';
+
+	document.querySelectorAll<HTMLImageElement>('[data-gift-image]').forEach((image) => {
+		image.addEventListener('error', () => {
+			if (!image.src.endsWith(fallbackImage)) image.src = fallbackImage;
+		});
+	});
+</script>
 
 <style>
 	.gift-card {

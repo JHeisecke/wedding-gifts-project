@@ -20,6 +20,7 @@ export interface SiteConfig {
 	language: 'es-PY';
 	pageTitle: string;
 	pageDescription: string;
+	robots: 'noindex, nofollow';
 	coupleNames: string;
 	weddingDate: string;
 	weddingDateIso: string;
@@ -43,6 +44,7 @@ export const siteConfig = {
 	language: 'es-PY',
 	pageTitle: 'Javier & Yara — Nos casamos',
 	pageDescription: 'Regalos para acompañar a Javier y Yara en su nuevo hogar y luna de miel.',
+	robots: 'noindex, nofollow',
 	coupleNames: 'Javier & Yara',
 	weddingDate: '20 de febrero de 2027',
 	weddingDateIso: '2027-02-20',
