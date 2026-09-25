@@ -1,0 +1,74 @@
+---
+interface Props {
+	eyebrow: string;
+	title: string;
+	intro: string;
+	giftCount: number;
+}
+
+const { eyebrow, title, intro, giftCount } = Astro.props;
+---
+
+<section id="regalos" class="gifts" aria-labelledby="gifts-title">
+	<div class="gifts__heading">
+		<p class="eyebrow">{eyebrow}</p>
+		<h2 id="gifts-title">{title}</h2>
+		<p>{intro}</p>
+	</div>
+
+	<div class="gift-grid" data-gift-count={giftCount}>
+		<p>Estamos preparando {giftCount} regalos para compartir con vos.</p>
+	</div>
+</section>
+
+<style>
+	.gifts {
+		padding: var(--space-section) var(--space-page);
+	}
+
+	.gifts__heading,
+	.gift-grid {
+		width: min(100%, var(--content-width));
+		margin-inline: auto;
+	}
+
+	.gifts__heading {
+		max-width: var(--content-width-narrow);
+		text-align: center;
+	}
+
+	h2 {
+		margin: 0;
+		font-family: var(--font-heading);
+		font-size: var(--font-size-heading);
+		font-weight: var(--font-weight-medium);
+		line-height: var(--line-height-tight);
+		letter-spacing: var(--letter-spacing-display);
+	}
+
+	.gifts__heading > p:last-child {
+		margin: var(--space-4) 0 0;
+		color: var(--color-text-muted);
+		font-size: var(--font-size-body);
+		line-height: var(--line-height-body);
+	}
+
+	.gift-grid {
+		display: grid;
+		min-height: 14rem;
+		place-items: center;
+		margin-top: var(--space-7);
+		padding: var(--space-6);
+		border: 1px dashed var(--color-border);
+		border-radius: var(--radius-large);
+		background: var(--color-surface-muted);
+		text-align: center;
+	}
+
+	.gift-grid p {
+		max-width: var(--content-width-narrow);
+		margin: 0;
+		color: var(--color-text-muted);
+		line-height: var(--line-height-body);
+	}
+</style>

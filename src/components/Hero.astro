@@ -1,0 +1,131 @@
+---
+import type { SiteConfig } from '../config/site';
+
+type Props = Pick<
+	SiteConfig,
+	| 'coupleNames'
+	| 'weddingDate'
+	| 'weddingDateIso'
+	| 'heroEyebrow'
+	| 'heroSubtitle'
+	| 'heroCta'
+>;
+
+const {
+	coupleNames,
+	weddingDate,
+	weddingDateIso,
+	heroEyebrow,
+	heroSubtitle,
+	heroCta,
+} = Astro.props;
+---
+
+<header class="hero">
+	<div class="hero__ornament" aria-hidden="true"></div>
+	<div class="hero__content">
+		<p class="eyebrow">{heroEyebrow}</p>
+		<h1>{coupleNames}</h1>
+		<time datetime={weddingDateIso}>{weddingDate}</time>
+		<p class="hero__subtitle">{heroSubtitle}</p>
+		<a class="hero__cta" href="#regalos">{heroCta}</a>
+	</div>
+	<div class="hero__ornament hero__ornament--right" aria-hidden="true"></div>
+</header>
+
+<style>
+	.hero {
+		position: relative;
+		display: grid;
+		min-height: min(52rem, 100svh);
+		place-items: center;
+		overflow: hidden;
+		padding: var(--space-section) var(--space-page);
+		text-align: center;
+	}
+
+	.hero__content {
+		position: relative;
+		z-index: 1;
+		max-width: var(--content-width-narrow);
+	}
+
+	time {
+		display: block;
+		margin-top: var(--space-4);
+		color: var(--color-accent);
+		font-size: var(--font-size-status);
+		font-weight: var(--font-weight-bold);
+		letter-spacing: var(--letter-spacing-eyebrow);
+		text-transform: uppercase;
+	}
+
+	.hero__subtitle {
+		margin: var(--space-5) auto 0;
+		color: var(--color-text-muted);
+		font-size: var(--font-size-lead);
+		line-height: var(--line-height-body);
+	}
+
+	.hero__cta {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 3.25rem;
+		margin-top: var(--space-6);
+		padding: var(--space-2) var(--space-6);
+		border-radius: var(--radius-pill);
+		background: var(--color-accent);
+		color: var(--color-on-accent);
+		font-weight: var(--font-weight-bold);
+		text-decoration: none;
+		transition: background var(--transition-fast), transform var(--transition-fast);
+	}
+
+	.hero__cta:hover {
+		background: var(--color-accent-hover);
+		transform: translateY(-0.125rem);
+	}
+
+	.hero__ornament {
+		position: absolute;
+		bottom: -9rem;
+		left: -9rem;
+		width: 22rem;
+		aspect-ratio: 1;
+		border: 1px solid var(--color-border);
+		border-radius: 50%;
+	}
+
+	.hero__ornament::after {
+		position: absolute;
+		inset: var(--space-5);
+		border: 1px solid var(--color-border);
+		border-radius: inherit;
+		content: '';
+	}
+
+	.hero__ornament--right {
+		top: -12rem;
+		right: -11rem;
+		bottom: auto;
+		left: auto;
+	}
+
+	@media (max-width: 40rem) {
+		.hero {
+			min-height: 44rem;
+		}
+
+		.hero__ornament {
+			op: -14rem;
+			bottom: auto;
+		}
+
+		.hero__ornament--right {
+			top: auto;
+			right: -13rem;
+			bottom: -12rem;
+		}
+	}
+</style>

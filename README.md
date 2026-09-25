@@ -27,7 +27,8 @@ Astro genera el sitio estático en `dist/`.
 - Repositorio estático con ocho regalos temporales.
 - Configuración central del sitio, banco y WhatsApp.
 - Tokens visuales y estilos globales básicos.
-- Página temporal que consume los regalos mediante el repositorio.
+- Portada, explicación en tres pasos, contenedor de regalos y agradecimiento final.
+- Página que consume los regalos mediante el repositorio.
 - Build estático verificable.
 
-La grilla, el diálogo de contribución y el contenido definitivo se incorporarán en los siguientes entregables.
+Las tarjetas de la grilla, el diálogo de contribución y el contenido definitivo se incorporarán en los siguientes entregables.

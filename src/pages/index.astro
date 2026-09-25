@@ -1,6 +1,11 @@
 ---
 import '../styles/global.css';
 
+import GiftsSection from '../components/GiftsSection.astro';
+import Hero from '../components/Hero.astro';
+import HowToContribute from '../components/HowToContribute.astro';
+import ThankYouFooter from '../components/ThankYouFooter.astro';
+import { siteConfig } from '../config/site';
 import { giftRepository } from '../features/gifts';
 
 const gifts = await giftRepository.list();
@@ -13,30 +18,36 @@ const gifts = await giftRepository.list();
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="generator" content={Astro.generator} />
-		<meta
-			name="description"
-			content="Esqueleto técnico temporal del proyecto de regalos de boda."
-		/>
-		<title>Wedding Gifts Project</title>
+		<meta name="description" content={siteConfig.pageDescription} />
+		<title>{siteConfig.pageTitle}</title>
 	</head>
 	<body>
-		<main class="site-shell">
-			<p class="eyebrow">Esqueleto técnico</p>
-			<h1>Wedding Gifts Project</h1>
-			<p class="summary">
-				Astro está funcionando. El contenido definitivo se incorporará en los próximos
-				entregables.
-			</p>
-			<p class="technical-status">{gifts.length} regalos temporales cargados.</p>
+		<main>
+			<Hero
+				coupleNames={siteConfig.coupleNames}
+				weddingDate={siteConfig.weddingDate}
+				weddingDateIso={siteConfig.weddingDateIso}
+				heroEyebrow={siteConfig.heroEyebrow}
+				heroSubtitle={siteConfig.heroSubtitle}
+				heroCta={siteConfig.heroCta}
+			/>
+			<HowToContribute
+				eyebrow={siteConfig.contributionEyebrow}
+				title={siteConfig.contributionTitle}
+				intro={siteConfig.contributionIntro}
+				steps={siteConfig.contributionSteps}
+			/>
+			<GiftsSection
+				eyebrow={siteConfig.giftsEyebrow}
+				title={siteConfig.giftsTitle}
+				intro={siteConfig.giftsIntro}
+				giftCount={gifts.length}
+			/>
 		</main>
+		<ThankYouFooter
+			title={siteConfig.thankYouTitle}
+			message={siteConfig.thankYouMessage}
+			coupleNames={siteConfig.coupleNames}
+		/>
 	</body>
 </html>
-
-<style>
-	.technical-status {
-		margin: var(--space-3) 0 0;
-		color: var(--color-accent);
-		font-size: var(--font-size-status);
-		font-weight: var(--font-weight-bold);
-	}
-</style>

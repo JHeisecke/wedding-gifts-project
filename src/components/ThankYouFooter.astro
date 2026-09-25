@@ -1,0 +1,52 @@
+---
+interface Props {
+	title: string;
+	message: string;
+	coupleNames: string;
+}
+
+const { title, message, coupleNames } = Astro.props;
+---
+
+<footer class="thank-you">
+	<div class="thank-you__content">
+		<p class="eyebrow">{coupleNames}</p>
+		<h2>{title}</h2>
+		<p class="thank-you__message">{message}</p>
+	</div>
+</footer>
+
+<style>
+	.thank-you {
+		padding: var(--space-section) var(--space-page);
+		background: var(--color-accent);
+		color: var(--color-on-accent);
+		text-align: center;
+	}
+
+	.thank-you__content {
+		max-width: var(--content-width-narrow);
+		margin-inline: auto;
+	}
+
+	.eyebrow {
+		color: inherit;
+		opacity: 0.8;
+	}
+
+	h2 {
+		margin: 0;
+		font-family: var(--font-heading);
+		font-size: var(--font-size-heading);
+		font-weight: var(--font-weight-medium);
+		line-height: var(--line-height-tight);
+		letter-spacing: var(--letter-spacing-display);
+	}
+
+	.thank-you__message {
+		margin: var(--space-4) 0 0;
+		font-size: var(--font-size-body);
+		line-height: var(--line-height-body);
+		opacity: 0.9;
+	}
+</style>
