@@ -22,7 +22,6 @@ export interface SiteConfig {
 	pageTitle: string;
 	pageDescription: string;
 	robots: 'noindex, nofollow';
-	prototypeNotice: string;
 	coupleNames: string;
 	weddingDate: string;
 	weddingDateIso: string;
@@ -47,7 +46,6 @@ export const siteConfig = {
 	pageTitle: 'Javier & Iara — Nos casamos',
 	pageDescription: 'Regalos para acompañar a Javier y Iara en su nuevo hogar y luna de miel.',
 	robots: 'noindex, nofollow',
-	prototypeNotice: 'Versión prototipo — por favor, no realices transferencias todavía.',
 	coupleNames: 'Javier & Iara',
 	weddingDate: '20 de febrero de 2027',
 	weddingDateIso: '2027-02-20',
