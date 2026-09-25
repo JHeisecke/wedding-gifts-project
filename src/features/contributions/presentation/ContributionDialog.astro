@@ -1,0 +1,430 @@
+---
+import type { BankAccountConfig, WhatsAppConfig } from '../../../config/site';
+
+interface Props {
+	bankAccount: BankAccountConfig;
+	whatsApp: WhatsAppConfig;
+}
+
+const { bankAccount, whatsApp } = Astro.props;
+const bankFields = [
+	{ id: 'bank-name', label: 'Banco', value: bankAccount.bankName },
+	{ id: 'bank-holder', label: 'Titular', value: bankAccount.holderName },
+	{ id: 'bank-account', label: 'Número de cuenta', value: bankAccount.accountNumber },
+	...(bankAccount.alias ? [{ id: 'bank-alias', label: 'Alias', value: bankAccount.alias }] : []),
+];
+---
+
+<dialog
+	id="contribution-dialog"
+	class="contribution-dialog"
+	data-phone-number={whatsApp.phoneNumber}
+	data-message-template={whatsApp.messageTemplate}
+>
+	<div class="dialog__shell">
+		<button class="dialog__close" type="button" data-dialog-close aria-label="Cerrar diálogo">
+			<span aria-hidden="true">×</span>
+		</button>
+
+		<div class="dialog__gift">
+			<img data-dialog-image src="/images/gifts/placeholder.svg" alt="" width="800" height="600" />
+			<div>
+				<p class="eyebrow">Tu aporte</p>
+				<h2 data-dialog-title tabindex="-1">Regalo seleccionado</h2>
+				<p class="dialog__progress-copy">
+					<span data-dialog-progress-copy></span>
+					<span data-dialog-remaining></span>
+				</p>
+				<progress data-dialog-progress value="0" max="100" aria-label="Progreso del regalo">0%</progress>
+				<p class="dialog__amounts">
+					<span>Reunido <strong data-dialog-confirmed></strong></span>
+					<span>Meta <strong data-dialog-target></strong></span>
+				</p>
+			</div>
+		</div>
+
+		<section class="dialog__instructions" aria-labelledby="contribution-instructions-title">
+			<h3 id="contribution-instructions-title">¿Cómo hago mi aporte?</h3>
+			<ol>
+				<li>Elegí libremente el monto que quieras aportar.</li>
+				<li>Copiá los datos y hacé la transferencia desde tu banco.</li>
+				<li>Enviá el comprobante por WhatsApp para que podamos actualizar el progreso.</li>
+			</ol>
+		</section>
+
+		<section class="dialog__bank" aria-labelledby="bank-details-title">
+			<h3 id="bank-details-title">Datos para la transferencia</h3>
+			<dl>
+				{bankFields.map((field) => (
+					<div class="bank-field">
+						<div>
+							<dt>{field.label}</dt>
+							<dd id={field.id}>{field.value || 'Pendiente de definir'}</dd>
+						</div>
+						<button
+							type="button"
+							data-copy-target={field.id}
+							disabled={!field.value}
+						>
+							{field.value ? 'Copiar' : 'Pendiente'}
+						</button>
+					</div>
+				))}
+			</dl>
+			<p class="copy-status" data-copy-status role="status" aria-live="polite"></p>
+		</section>
+
+		<a class="dialog__whatsapp" data-whatsapp-link aria-disabled="true">
+			WhatsApp pendiente
+		</a>
+		<p class="dialog__note">
+			La actualización del progreso es manual y puede tardar un poquito en verse.
+		</p>
+	</div>
+</dialog>
+
+<script>
+	import { buildWhatsAppUrl } from '../domain/whatsapp-link';
+
+	const dialog = document.querySelector<HTMLDialogElement>('#contribution-dialog');
+
+	if (dialog) {
+		const title = dialog.querySelector<HTMLElement>('[data-dialog-title]');
+		const image = dialog.querySelector<HTMLImageElement>('[data-dialog-image]');
+		const progress = dialog.querySelector<HTMLProgressElement>('[data-dialog-progress]');
+		const progressCopy = dialog.querySelector<HTMLElement>('[data-dialog-progress-copy]');
+		const remaining = dialog.querySelector<HTMLElement>('[data-dialog-remaining]');
+		const confirmed = dialog.querySelector<HTMLElement>('[data-dialog-confirmed]');
+		const target = dialog.querySelector<HTMLElement>('[data-dialog-target]');
+		const whatsAppLink = dialog.querySelector<HTMLAnchorElement>('[data-whatsapp-link]');
+		const copyStatus = dialog.querySelector<HTMLElement>('[data-copy-status]');
+		let openingButton: HTMLButtonElement | null = null;
+
+		document.querySelectorAll<HTMLButtonElement>('[data-contribute]').forEach((button) => {
+			button.addEventListener('click', () => {
+				if (button.disabled || !title || !image || !progress) return;
+
+				openingButton = button;
+				const giftName = button.dataset.giftTitle ?? '';
+				const percentage = Number(button.dataset.giftProgress ?? 0);
+
+				title.textContent = giftName;
+				image.src = button.dataset.giftImageSrc ?? '';
+				image.alt = button.dataset.giftImageAlt ?? '';
+				progress.value = percentage;
+				progress.textContent = `${Math.round(percentage)}%`;
+				progress.setAttribute('aria-label', `Progreso de ${giftName}: ${Math.round(percentage)}%`);
+				if (progressCopy) progressCopy.textContent = `${Math.round(percentage)}% reunido`;
+				if (remaining) remaining.textContent = `Faltan ${button.dataset.giftRemaining ?? ''}`;
+				if (confirmed) confirmed.textContent = button.dataset.giftConfirmed ?? '';
+				if (target) target.textContent = button.dataset.giftTarget ?? '';
+				if (copyStatus) copyStatus.textContent = '';
+
+				if (whatsAppLink) {
+					const url = buildWhatsAppUrl({
+						phoneNumber: dialog.dataset.phoneNumber ?? '',
+						messageTemplate: dialog.dataset.messageTemplate ?? '',
+						giftName,
+					});
+
+					if (url) {
+						whatsAppLink.href = url;
+						whatsAppLink.target = '_blank';
+						whatsAppLink.rel = 'noopener noreferrer';
+						whatsAppLink.removeAttribute('aria-disabled');
+						whatsAppLink.textContent = 'Enviar comprobante por WhatsApp';
+					} else {
+						whatsAppLink.removeAttribute('href');
+						whatsAppLink.setAttribute('aria-disabled', 'true');
+						whatsAppLink.textContent = 'WhatsApp pendiente';
+					}
+				}
+
+				dialog.showModal();
+				requestAnimationFrame(() => title.focus());
+			});
+		});
+
+		dialog.querySelector('[data-dialog-close]')?.addEventListener('click', () => dialog.close());
+
+		dialog.addEventListener('click', (event) => {
+			if (event.target === dialog) dialog.close();
+		});
+
+		dialog.addEventListener('close', () => {
+			openingButton?.focus();
+			openingButton = null;
+		});
+
+		dialog.querySelectorAll<HTMLButtonElement>('[data-copy-target]').forEach((button) => {
+			button.addEventListener('click', async () => {
+				const targetId = button.dataset.copyTarget;
+				const valueElement = targetId ? document.getElementById(targetId) : null;
+				const value = valueElement?.textContent?.trim();
+
+				if (!value || !valueElement || !copyStatus) return;
+
+				try {
+					await navigator.clipboard.writeText(value);
+					copyStatus.textContent = `${valueElement.previousElementSibling?.textContent ?? 'Dato'} copiado.`;
+				} catch {
+					const selection = window.getSelection();
+					const range = document.createRange();
+					range.selectNodeContents(valueElement);
+					selection?.removeAllRanges();
+					selection?.addRange(range);
+					copyStatus.textContent = 'No pudimos copiarlo. El dato quedó seleccionado para que lo copies manualmente.';
+				}
+			});
+		});
+	}
+</script>
+
+<style>
+	.contribution-dialog {
+		width: min(calc(100% - 2 * var(--space-page)), 48rem);
+		max-height: calc(100dvh - 2 * var(--space-page));
+		padding: 0;
+		overflow: auto;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-large);
+		background: var(--color-surface);
+		color: var(--color-text);
+		box-shadow: var(--shadow-soft);
+	}
+
+	.contribution-dialog::backdrop {
+		background: rgb(51 42 42 / 0.72);
+		backdrop-filter: blur(0.25rem);
+	}
+
+	.dialog__shell {
+		position: relative;
+		padding: var(--space-6);
+	}
+
+	.dialog__close {
+		position: absolute;
+		z-index: 1;
+		top: var(--space-3);
+		right: var(--space-3);
+		display: grid;
+		width: 2.75rem;
+		aspect-ratio: 1;
+		place-items: center;
+		border: 1px solid var(--color-border);
+		border-radius: 50%;
+		background: var(--color-surface);
+		color: var(--color-text);
+		font-size: var(--font-size-lead);
+		cursor: pointer;
+	}
+
+	.dialog__gift {
+		display: grid;
+		grid-template-columns: minmax(0, 12rem) 1fr;
+		gap: var(--space-5);
+		align-items: center;
+	}
+
+	.dialog__gift img {
+		display: block;
+		width: 100%;
+		aspect-ratio: 4 / 3;
+		border-radius: var(--radius-medium);
+		object-fit: cover;
+	}
+
+	h2,
+	h3 {
+		font-family: var(--font-heading);
+		font-weight: var(--font-weight-medium);
+	}
+
+	h2 {
+		margin: 0;
+		font-size: var(--font-size-heading);
+		line-height: var(--line-height-tight);
+		letter-spacing: var(--letter-spacing-display);
+	}
+
+	h3 {
+		margin: 0;
+		font-size: var(--font-size-lead);
+	}
+
+	.dialog__progress-copy,
+	.dialog__amounts {
+		display: flex;
+		justify-content: space-between;
+		gap: var(--space-3);
+		color: var(--color-text-muted);
+		font-size: var(--font-size-status);
+	}
+
+	.dialog__progress-copy {
+		margin: var(--space-4) 0 0;
+	}
+
+	.dialog__progress-copy span:first-child {
+		color: var(--color-accent);
+		font-weight: var(--font-weight-bold);
+	}
+
+	progress {
+		width: 100%;
+		height: 0.625rem;
+		margin-top: var(--space-2);
+		overflow: hidden;
+		border: 0;
+		border-radius: var(--radius-pill);
+		background: var(--color-surface-muted);
+		accent-color: var(--color-accent);
+	}
+
+	progress::-webkit-progress-bar {
+		background: var(--color-surface-muted);
+	}
+
+	progress::-webkit-progress-value {
+		border-radius: var(--radius-pill);
+		background: var(--color-accent);
+	}
+
+	progress::-moz-progress-bar {
+		border-radius: var(--radius-pill);
+		background: var(--color-accent);
+	}
+
+	.dialog__amounts {
+		margin: var(--space-3) 0 0;
+	}
+
+	.dialog__amounts span {
+		display: grid;
+		gap: var(--space-1);
+	}
+
+	.dialog__amounts span:last-child {
+		text-align: right;
+	}
+
+	.dialog__amounts strong {
+		color: var(--color-text);
+	}
+
+	.dialog__instructions,
+	.dialog__bank {
+		margin-top: var(--space-6);
+		padding-top: var(--space-6);
+		border-top: 1px solid var(--color-border);
+	}
+
+	.dialog__instructions ol {
+		display: grid;
+		gap: var(--space-2);
+		padding-left: var(--space-5);
+		margin: var(--space-3) 0 0;
+		color: var(--color-text-muted);
+		line-height: var(--line-height-body);
+	}
+
+	.dialog__bank dl {
+		display: grid;
+		gap: var(--space-2);
+		margin: var(--space-4) 0 0;
+	}
+
+	.bank-field {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--space-4);
+		padding: var(--space-3);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-medium);
+	}
+
+	dt {
+		color: var(--color-text-muted);
+		font-size: var(--font-size-status);
+	}
+
+	dd {
+		margin: var(--space-1) 0 0;
+		font-weight: var(--font-weight-bold);
+	}
+
+	.bank-field button {
+		min-height: 2.75rem;
+		padding: var(--space-1) var(--space-4);
+		border: 1px solid var(--color-accent);
+		border-radius: var(--radius-pill);
+		background: transparent;
+		color: var(--color-accent);
+		font-weight: var(--font-weight-bold);
+		cursor: pointer;
+	}
+
+	.bank-field button:disabled {
+		border-color: var(--color-border);
+		color: var(--color-text-muted);
+		cursor: not-allowed;
+		opacity: 0.72;
+	}
+
+	.copy-status {
+		min-height: 1.5rem;
+		margin: var(--space-2) 0 0;
+		color: var(--color-accent);
+		font-size: var(--font-size-status);
+	}
+
+	.dialog__whatsapp {
+		display: flex;
+		min-height: 3.25rem;
+		align-items: center;
+		justify-content: center;
+		margin-top: var(--space-5);
+		padding: var(--space-2) var(--space-5);
+		border-radius: var(--radius-pill);
+		background: var(--color-accent);
+		color: var(--color-on-accent);
+		font-weight: var(--font-weight-bold);
+		text-align: center;
+		text-decoration: none;
+	}
+
+	.dialog__whatsapp[aria-disabled='true'] {
+		background: var(--color-text-muted);
+		cursor: not-allowed;
+		opacity: 0.72;
+	}
+
+	.dialog__note {
+		margin: var(--space-3) 0 0;
+		color: var(--color-text-muted);
+		font-size: var(--font-size-status);
+		line-height: var(--line-height-body);
+		text-align: center;
+	}
+
+	@media (max-width: 40rem) {
+		.contribution-dialog {
+			width: calc(100% - 2 * var(--space-3));
+			max-height: calc(100dvh - 2 * var(--space-3));
+		}
+
+		.dialog__shell {
+			padding: var(--space-5);
+		}
+
+		.dialog__gift {
+			grid-template-columns: 1fr;
+		}
+
+		.dialog__gift img {
+			max-height: 11rem;
+		}
+	}
+</style>

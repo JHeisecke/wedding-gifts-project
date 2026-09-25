@@ -48,7 +48,20 @@ const categoryLabel = giftCategoryLabels[gift.category];
 			<span>Meta <strong>{formatGuarani(gift.targetAmount)}</strong></span>
 		</div>
 
-		<button type="button" disabled>
+		<button
+			type="button"
+			disabled={progress.isCompleted}
+			data-contribute={!progress.isCompleted ? '' : undefined}
+			data-gift-title={gift.title}
+			data-gift-image-src={gift.image.src}
+			data-gift-image-alt={gift.image.alt}
+			data-gift-progress={progress.percentage}
+			data-gift-remaining={formatGuarani(progress.remainingAmount)}
+			data-gift-confirmed={formatGuarani(progress.confirmedAmount)}
+			data-gift-target={formatGuarani(gift.targetAmount)}
+			aria-haspopup={!progress.isCompleted ? 'dialog' : undefined}
+			aria-controls={!progress.isCompleted ? 'contribution-dialog' : undefined}
+		>
 			{progress.isCompleted ? 'Completado' : 'Quiero contribuir'}
 		</button>
 	</div>
@@ -191,6 +204,16 @@ const categoryLabel = giftCategoryLabels[gift.category];
 	button:disabled {
 		cursor: not-allowed;
 		opacity: 0.82;
+	}
+
+	button:not(:disabled) {
+		cursor: pointer;
+		transition: background var(--transition-fast), transform var(--transition-fast);
+	}
+
+	button:not(:disabled):hover {
+		background: var(--color-accent-hover);
+		transform: translateY(-0.125rem);
 	}
 
 	.gift-card--completed button {

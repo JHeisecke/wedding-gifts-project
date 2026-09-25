@@ -78,8 +78,8 @@ export const siteConfig = {
 	thankYouMessage:
 		'Lo más importante para nosotros es celebrar este momento con las personas que queremos.',
 	bankAccount: {
-		bankName: 'Pendiente de definir',
-		holderName: 'Pendiente de definir',
+		bankName: '',
+		holderName: '',
 		accountNumber: '',
 	},
 	whatsApp: {

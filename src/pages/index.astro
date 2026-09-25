@@ -6,6 +6,7 @@ import Hero from '../components/Hero.astro';
 import HowToContribute from '../components/HowToContribute.astro';
 import ThankYouFooter from '../components/ThankYouFooter.astro';
 import { siteConfig } from '../config/site';
+import ContributionDialog from '../features/contributions/presentation/ContributionDialog.astro';
 import { giftRepository } from '../features/gifts';
 
 const gifts = await giftRepository.list();
@@ -48,6 +49,10 @@ const gifts = await giftRepository.list();
 			title={siteConfig.thankYouTitle}
 			message={siteConfig.thankYouMessage}
 			coupleNames={siteConfig.coupleNames}
+		/>
+		<ContributionDialog
+			bankAccount={siteConfig.bankAccount}
+			whatsApp={siteConfig.whatsApp}
 		/>
 	</body>
 </html>
