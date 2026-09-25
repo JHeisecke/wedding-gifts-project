@@ -42,10 +42,10 @@ export interface SiteConfig {
 
 export const siteConfig = {
 	language: 'es-PY',
-	pageTitle: 'Javier & Yara — Nos casamos',
-	pageDescription: 'Regalos para acompañar a Javier y Yara en su nuevo hogar y luna de miel.',
+	pageTitle: 'Javier & Iara — Nos casamos',
+	pageDescription: 'Regalos para acompañar a Javier y Iara en su nuevo hogar y luna de miel.',
 	robots: 'noindex, nofollow',
-	coupleNames: 'Javier & Yara',
+	coupleNames: 'Javier & Iara',
 	weddingDate: '20 de febrero de 2027',
 	weddingDateIso: '2027-02-20',
 	heroEyebrow: 'Nos casamos',

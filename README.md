@@ -1,6 +1,6 @@
 # Wedding Gifts Project
 
-Sitio estático de regalos para la boda de Javier y Yara. Este repositorio está en su etapa de esqueleto técnico; el contenido visible todavía es temporal.
+Sitio estático de regalos para la boda de Javier y Iara. Este repositorio está en su etapa de esqueleto técnico; el contenido visible todavía es temporal.
 
 ## Requisitos
 
