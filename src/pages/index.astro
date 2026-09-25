@@ -1,5 +1,9 @@
 ---
 import '../styles/global.css';
+
+import { giftRepository } from '../features/gifts';
+
+const gifts = await giftRepository.list();
 ---
 
 <html lang="es-PY">
@@ -23,6 +27,16 @@ import '../styles/global.css';
 				Astro está funcionando. El contenido definitivo se incorporará en los próximos
 				entregables.
 			</p>
+			<p class="technical-status">{gifts.length} regalos temporales cargados.</p>
 		</main>
 	</body>
 </html>
+
+<style>
+	.technical-status {
+		margin: 1rem 0 0;
+		color: var(--color-accent);
+		font-size: 0.875rem;
+		font-weight: 700;
+	}
+</style>

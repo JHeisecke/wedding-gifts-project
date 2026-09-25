@@ -3,6 +3,9 @@ dist/
 # generated types
 .astro/
 
+# Vitest reports and artifacts
+.vitest/
+
 # dependencies
 node_modules/
 

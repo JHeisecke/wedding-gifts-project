@@ -1,9 +1,9 @@
+@import './tokens.css';
+
 :root {
-	font-family:
-		Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-		sans-serif;
-	color: #332a2a;
-	background: #f8f3ea;
+	font-family: var(--font-body);
+	color: var(--color-text);
+	background: var(--color-background);
 	font-synthesis: none;
 }
 
@@ -13,7 +13,7 @@
 
 html {
 	min-width: 20rem;
-	background: #f8f3ea;
+	background: var(--color-background);
 }
 
 body {
@@ -25,13 +25,13 @@ body {
 	display: grid;
 	min-height: 100vh;
 	place-content: center;
-	padding: 2rem;
+	padding: var(--space-page);
 	text-align: center;
 }
 
 .eyebrow {
 	margin: 0 0 0.75rem;
-	color: #7f2636;
+	color: var(--color-accent);
 	font-size: 0.75rem;
 	font-weight: 700;
 	letter-spacing: 0.12em;
@@ -40,16 +40,16 @@ body {
 
 h1 {
 	margin: 0;
-	font-family: Georgia, "Times New Roman", serif;
+	font-family: var(--font-heading);
 	font-size: clamp(2.25rem, 8vw, 4.5rem);
 	font-weight: 500;
 	letter-spacing: -0.04em;
 }
 
 .summary {
-	max-width: 36rem;
+	max-width: var(--content-width);
 	margin: 1.25rem auto 0;
-	color: #665959;
+	color: var(--color-text-muted);
 	font-size: clamp(1rem, 2.5vw, 1.2rem);
 	line-height: 1.65;
 }

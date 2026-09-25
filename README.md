@@ -12,6 +12,8 @@ Sitio estático de regalos para la boda de Javier y Yara. Este repositorio está
 ```sh
 npm install
 npm run dev
+npm run check
+npm test
 npm run build
 npm run preview
 ```
@@ -20,9 +22,12 @@ Astro genera el sitio estático en `dist/`.
 
 ## Alcance actual
 
-- Configuración mínima de Astro y TypeScript.
-- Estilos globales básicos.
-- Página temporal sin contenido final ni imágenes reales.
+- Configuración estática de Astro y TypeScript estricto.
+- Dominio de regalos y cálculo de progreso probados con Vitest.
+- Repositorio estático con ocho regalos temporales.
+- Configuración central del sitio, banco y WhatsApp.
+- Tokens visuales y estilos globales básicos.
+- Página temporal que consume los regalos mediante el repositorio.
 - Build estático verificable.
 
-La arquitectura y las funcionalidades del MVP se formalizarán en los siguientes entregables.
+La grilla, el diálogo de contribución y el contenido definitivo se incorporarán en los siguientes entregables.
