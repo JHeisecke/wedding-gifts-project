@@ -2,6 +2,7 @@
 import { calculateGiftProgress } from '../domain/gift-progress';
 import type { Gift } from '../domain/gift';
 import { formatGuarani } from './format-guarani';
+import { giftCategoryLabels } from './gift-category-labels';
 
 interface Props {
 	gift: Gift;
@@ -10,7 +11,7 @@ interface Props {
 const { gift } = Astro.props;
 const progress = calculateGiftProgress(gift);
 const roundedPercentage = Math.round(progress.percentage);
-const categoryLabel = gift.category === 'honeymoon' ? 'Luna de miel' : 'Nuestro hogar';
+const categoryLabel = giftCategoryLabels[gift.category];
 ---
 
 <article class:list={['gift-card', { 'gift-card--completed': progress.isCompleted }]}>
