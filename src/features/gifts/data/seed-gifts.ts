@@ -10,7 +10,7 @@ export const seedGifts = [
 		category: 'honeymoon',
 		image: { src: placeholderImage, alt: 'Imagen temporal de un vuelo a Mendoza' },
 		targetAmount: 3_500_000,
-		confirmedAmount: 0,
+		confirmedAmount: 750_000,
 		displayOrder: 1,
 	},
 	{
@@ -20,7 +20,7 @@ export const seedGifts = [
 		category: 'home',
 		image: { src: placeholderImage, alt: 'Imagen temporal de un televisor' },
 		targetAmount: 4_000_000,
-		confirmedAmount: 0,
+		confirmedAmount: 4_000_000,
 		displayOrder: 2,
 	},
 	{
@@ -30,7 +30,7 @@ export const seedGifts = [
 		category: 'honeymoon',
 		image: { src: placeholderImage, alt: 'Imagen temporal de un hotel en Mendoza' },
 		targetAmount: 2_800_000,
-		confirmedAmount: 0,
+		confirmedAmount: 1_400_000,
 		displayOrder: 3,
 	},
 	{
@@ -40,7 +40,7 @@ export const seedGifts = [
 		category: 'home',
 		image: { src: placeholderImage, alt: 'Imagen temporal de una procesadora de comida' },
 		targetAmount: 1_500_000,
-		confirmedAmount: 0,
+		confirmedAmount: 1_650_000,
 		displayOrder: 4,
 	},
 	{
@@ -60,7 +60,7 @@ export const seedGifts = [
 		category: 'home',
 		image: { src: placeholderImage, alt: 'Imagen temporal de una licuadora' },
 		targetAmount: 700_000,
-		confirmedAmount: 0,
+		confirmedAmount: 250_000,
 		displayOrder: 6,
 	},
 	{
@@ -70,7 +70,7 @@ export const seedGifts = [
 		category: 'honeymoon',
 		image: { src: placeholderImage, alt: 'Imagen temporal de otro hotel en Mendoza' },
 		targetAmount: 2_800_000,
-		confirmedAmount: 0,
+		confirmedAmount: 2_800_000,
 		displayOrder: 7,
 	},
 	{
@@ -80,7 +80,7 @@ export const seedGifts = [
 		category: 'home',
 		image: { src: placeholderImage, alt: 'Imagen temporal de utensilios de pastelería' },
 		targetAmount: 900_000,
-		confirmedAmount: 0,
+		confirmedAmount: 300_000,
 		displayOrder: 8,
 	},
 ] satisfies readonly Gift[];

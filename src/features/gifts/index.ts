@@ -4,5 +4,6 @@ import { StaticGiftRepository } from './data/static-gift-repository';
 export const giftRepository = new StaticGiftRepository(seedGifts);
 
 export { calculateGiftProgress } from './domain/gift-progress';
+export { formatGuarani } from './presentation/format-guarani';
 export type { Gift, GiftCategory, GiftImage } from './domain/gift';
 export type { GiftRepository } from './domain/gift-repository';

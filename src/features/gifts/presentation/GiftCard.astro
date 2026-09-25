@@ -1,0 +1,198 @@
+---
+import { calculateGiftProgress } from '../domain/gift-progress';
+import type { Gift } from '../domain/gift';
+import { formatGuarani } from './format-guarani';
+
+interface Props {
+	gift: Gift;
+}
+
+const { gift } = Astro.props;
+const progress = calculateGiftProgress(gift);
+const roundedPercentage = Math.round(progress.percentage);
+const categoryLabel = gift.category === 'honeymoon' ? 'Luna de miel' : 'Nuestro hogar';
+---
+
+<article class:list={['gift-card', { 'gift-card--completed': progress.isCompleted }]}>
+	<div class="gift-card__image-wrap">
+		<img
+			class="gift-card__image"
+			src={gift.image.src}
+			alt={gift.image.alt}
+			width="800"
+			height="600"
+			loading="lazy"
+		/>
+		<span class="gift-card__category">{categoryLabel}</span>
+	</div>
+
+	<div class="gift-card__content">
+		<h3>{gift.title}</h3>
+		<p class="gift-card__description">{gift.description}</p>
+
+		<div class="gift-card__progress-heading">
+			<span>{progress.isCompleted ? 'Regalo completado' : `${roundedPercentage}% reunido`}</span>
+			{!progress.isCompleted && <span>Faltan {formatGuarani(progress.remainingAmount)}</span>}
+		</div>
+		<progress
+			value={progress.percentage}
+			max="100"
+			aria-label={`Progreso de ${gift.title}: ${roundedPercentage}%`}
+		>
+			{roundedPercentage}%
+		</progress>
+
+		<div class="gift-card__amounts">
+			<span>Reunido <strong>{formatGuarani(progress.confirmedAmount)}</strong></span>
+			<span>Meta <strong>{formatGuarani(gift.targetAmount)}</strong></span>
+		</div>
+
+		<button type="button" disabled>
+			{progress.isCompleted ? 'Completado' : 'Quiero contribuir'}
+		</button>
+	</div>
+</article>
+
+<style>
+	.gift-card {
+		display: flex;
+		min-width: 0;
+		flex-direction: column;
+		overflow: hidden;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-large);
+		background: var(--color-surface);
+		box-shadow: var(--shadow-soft);
+	}
+
+	.gift-card__image-wrap {
+		position: relative;
+		aspect-ratio: 4 / 3;
+		overflow: hidden;
+		background: var(--color-surface-muted);
+	}
+
+	.gift-card__image {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.gift-card__category {
+		position: absolute;
+		top: var(--space-3);
+		left: var(--space-3);
+		padding: var(--space-1) var(--space-3);
+		border-radius: var(--radius-pill);
+		background: var(--color-surface);
+		color: var(--color-accent);
+		font-size: var(--font-size-eyebrow);
+		font-weight: var(--font-weight-bold);
+		letter-spacing: var(--letter-spacing-eyebrow);
+		text-transform: uppercase;
+	}
+
+	.gift-card__content {
+		display: flex;
+		flex: 1;
+		flex-direction: column;
+		padding: var(--space-5);
+	}
+
+	h3 {
+		margin: 0;
+		font-family: var(--font-heading);
+		font-size: var(--font-size-lead);
+		font-weight: var(--font-weight-medium);
+		line-height: var(--line-height-tight);
+	}
+
+	.gift-card__description {
+		margin: var(--space-3) 0 0;
+		color: var(--color-text-muted);
+		line-height: var(--line-height-body);
+	}
+
+	.gift-card__progress-heading,
+	.gift-card__amounts {
+		display: flex;
+		justify-content: space-between;
+		gap: var(--space-3);
+	}
+
+	.gift-card__progress-heading {
+		margin-top: var(--space-5);
+		color: var(--color-text-muted);
+		font-size: var(--font-size-status);
+	}
+
+	.gift-card__progress-heading span:first-child {
+		color: var(--color-accent);
+		font-weight: var(--font-weight-bold);
+	}
+
+	progress {
+		width: 100%;
+		height: 0.625rem;
+		margin-top: var(--space-2);
+		overflow: hidden;
+		border: 0;
+		border-radius: var(--radius-pill);
+		background: var(--color-surface-muted);
+		accent-color: var(--color-accent);
+	}
+
+	progress::-webkit-progress-bar {
+		background: var(--color-surface-muted);
+	}
+
+	progress::-webkit-progress-value {
+		border-radius: var(--radius-pill);
+		background: var(--color-accent);
+	}
+
+	progress::-moz-progress-bar {
+		border-radius: var(--radius-pill);
+		background: var(--color-accent);
+	}
+
+	.gift-card__amounts {
+		margin-top: var(--space-3);
+		color: var(--color-text-muted);
+		font-size: var(--font-size-status);
+	}
+
+	.gift-card__amounts span {
+		display: grid;
+		gap: var(--space-1);
+	}
+
+	.gift-card__amounts span:last-child {
+		text-align: right;
+	}
+
+	.gift-card__amounts strong {
+		color: var(--color-text);
+	}
+
+	button {
+		width: 100%;
+		min-height: 3rem;
+		margin-top: var(--space-5);
+		border: 0;
+		border-radius: var(--radius-pill);
+		background: var(--color-accent);
+		color: var(--color-on-accent);
+		font-weight: var(--font-weight-bold);
+	}
+
+	button:disabled {
+		cursor: not-allowed;
+		opacity: 0.82;
+	}
+
+	.gift-card--completed button {
+		background: var(--color-text-muted);
+	}
+</style>

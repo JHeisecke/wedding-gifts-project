@@ -29,6 +29,7 @@ Astro genera el sitio estático en `dist/`.
 - Tokens visuales y estilos globales básicos.
 - Portada, explicación en tres pasos, contenedor de regalos y agradecimiento final.
 - Página que consume los regalos mediante el repositorio.
+- Grilla adaptable con montos en guaraníes, progreso y estado completado.
 - Build estático verificable.
 
-Las tarjetas de la grilla, el diálogo de contribución y el contenido definitivo se incorporarán en los siguientes entregables.
+El diálogo de contribución y el contenido definitivo se incorporarán en los siguientes entregables. Los botones de aporte permanecen deshabilitados hasta implementar ese flujo.

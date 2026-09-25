@@ -1,12 +1,15 @@
 ---
+import type { Gift } from '../features/gifts';
+import GiftCard from '../features/gifts/presentation/GiftCard.astro';
+
 interface Props {
 	eyebrow: string;
 	title: string;
 	intro: string;
-	giftCount: number;
+	gifts: readonly Gift[];
 }
 
-const { eyebrow, title, intro, giftCount } = Astro.props;
+const { eyebrow, title, intro, gifts } = Astro.props;
 ---
 
 <section id="regalos" class="gifts" aria-labelledby="gifts-title">
@@ -16,8 +19,8 @@ const { eyebrow, title, intro, giftCount } = Astro.props;
 		<p>{intro}</p>
 	</div>
 
-	<div class="gift-grid" data-gift-count={giftCount}>
-		<p>Estamos preparando {giftCount} regalos para compartir con vos.</p>
+	<div class="gift-grid" data-gift-count={gifts.length}>
+		{gifts.map((gift) => <GiftCard gift={gift} />)}
 	</div>
 </section>
 
@@ -55,20 +58,21 @@ const { eyebrow, title, intro, giftCount } = Astro.props;
 
 	.gift-grid {
 		display: grid;
-		min-height: 14rem;
-		place-items: center;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		align-items: stretch;
+		gap: var(--space-5);
 		margin-top: var(--space-7);
-		padding: var(--space-6);
-		border: 1px dashed var(--color-border);
-		border-radius: var(--radius-large);
-		background: var(--color-surface-muted);
-		text-align: center;
 	}
 
-	.gift-grid p {
-		max-width: var(--content-width-narrow);
-		margin: 0;
-		color: var(--color-text-muted);
-		line-height: var(--line-height-body);
+	@media (max-width: 62rem) {
+		.gift-grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	@media (max-width: 40rem) {
+		.gift-grid {
+			grid-template-columns: 1fr;
+		}
 	}
 </style>
